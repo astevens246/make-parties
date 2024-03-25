@@ -5,6 +5,14 @@ const expressHandlebars = require('express-handlebars');
 
 const app = express();
 
+// INITIALIZE BODY-PARSER AND ADD IT TO APP
+const bodyParser = require('body-parser');
+
+const models = require('./db/models');
+
+// The following line must appear AFTER const app = express() and before your routes!
+app.use(bodyParser.urlencoded({ extended: true }));
+
 // Create an instance of the expressHandlebars class with default layout 'main'
 const hbs = expressHandlebars.create({
   handlebars: allowInsecurePrototypeAccess(Handlebars),
@@ -28,10 +36,25 @@ var events = [
     { title: "Super bowl", desc: "A great event that is super fun to look at and good", imgUrl: "https://parade.com/.image/t_share/MTkwNTc4NDMyMDQ3Nzg1ODUy/golden-retriever.jpg" }
   ]
   
-  // INDEX
-  app.get('/', (req, res) => {
-    res.render('events-index', { events: events });
-  })
+    // INDEX
+    app.get('/', (req, res) => {
+        models.Event.findAll().then(events => {
+        res.render('events-index', { events: events });
+        })
+    })
+
+  // NEW
+    app.get('/events/new', (req, res) => {
+        res.render('events-new', {});
+    })
+    // CREATE
+    app.post('/events', (req, res) => {
+        models.Event.create(req.body).then(event => {
+        res.redirect(`/`);
+        }).catch((err) => {
+        console.log(err)
+        });
+    })
 
 // Choose a port to listen on
 const port = process.env.PORT || 3000;

@@ -17,8 +17,20 @@ app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
 // Tell our app to send the "hello world" message to our home page
-app.get('/', (req, res) => {
-    res.render('home', { msg: 'Handlebars are Cool!' });
+// app.get('/', (req, res) => {
+//     res.render('home', { msg: 'Handlebars are Cool!' });
+//   })
+
+// OUR MOCK ARRAY OF PROJECTS
+var events = [
+    { title: "Basketball game", desc: "A great event that is super fun to look at and good", imgUrl: "https://parade.com/.image/t_share/MTkwNTc4NDMyMDQ3Nzg1ODUy/golden-retriever.jpg" },
+    { title: "Puppy bowl", desc: "A great event that is super fun to look at and good", imgUrl: "https://parade.com/.image/t_share/MTkwNTc4NDMyMDQ3Nzg1ODUy/golden-retriever.jpg" },
+    { title: "Super bowl", desc: "A great event that is super fun to look at and good", imgUrl: "https://parade.com/.image/t_share/MTkwNTc4NDMyMDQ3Nzg1ODUy/golden-retriever.jpg" }
+  ]
+  
+  // INDEX
+  app.get('/', (req, res) => {
+    res.render('events-index', { events: events });
   })
 
 // Choose a port to listen on

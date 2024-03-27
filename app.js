@@ -1,4 +1,6 @@
 const express = require('express');
+const methodOverride = require('method-override')
+
 const Handlebars = require('handlebars');
 const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access');
 const expressHandlebars = require('express-handlebars');
@@ -23,6 +25,8 @@ const hbs = expressHandlebars.create({
 app.engine('handlebars', hbs.engine);
 // Use handlebars to render
 app.set('view engine', 'handlebars');
+// override with POST having ?_method=DELETE or ?_method=PUT
+app.use(methodOverride('_method'))
 
 // Tell our app to send the "hello world" message to our home page
 // app.get('/', (req, res) => {
@@ -47,7 +51,7 @@ var events = [
     app.get('/events/new', (req, res) => {
         res.render('events-new', {});
     })
-    
+
     // CREATE
     app.post('/events', (req, res) => {
         models.Event.create(req.body).then(event => {
@@ -69,6 +73,28 @@ var events = [
         console.log(err.message);
         })
     })
+
+    // EDIT
+    app.get('/events/:id/edit', (req, res) => {
+        models.Event.findByPk(req.params.id).then((event) => {
+        res.render('events-edit', { event: event });
+        }).catch((err) => {
+        console.log(err.message);
+        })
+    });
+
+    // UPDATE
+    app.put('/events/:id', (req, res) => {
+        models.Event.findByPk(req.params.id).then(event => {
+        event.update(req.body).then(event => {
+            res.redirect(`/events/${req.params.id}`);
+        }).catch((err) => {
+            console.log(err);
+        });
+        }).catch((err) => {
+        console.log(err);
+        });
+    });
 
 // Choose a port to listen on
 const port = process.env.PORT || 3000;

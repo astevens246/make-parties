@@ -1,4 +1,4 @@
-
+// Initializations
 const express = require('express');
 const methodOverride = require('method-override')
 
@@ -8,12 +8,12 @@ const expressHandlebars = require('express-handlebars');
 
 const app = express();
 
-// INITIALIZE BODY-PARSER AND ADD IT TO APP
 const bodyParser = require('body-parser');
 
 const models = require('./db/models');
 
-require('./db/controllers/events')(app, models);
+
+// MIDDLEWARE
 
 // The following line must appear AFTER const app = express() and before your routes!
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -42,9 +42,12 @@ var events = [
     { title: "Puppy bowl", desc: "A great event that is super fun to look at and good", imgUrl: "https://parade.com/.image/t_share/MTkwNTc4NDMyMDQ3Nzg1ODUy/golden-retriever.jpg" },
     { title: "Super bowl", desc: "A great event that is super fun to look at and good", imgUrl: "https://parade.com/.image/t_share/MTkwNTc4NDMyMDQ3Nzg1ODUy/golden-retriever.jpg" }
   ]
-  
+// CONTROLLERS REQUIRED  
+require('./controllers/events')(app, models);
+require('./controllers/rsvps')(app, models);
 
 
+// STARTING APPLICATION
 // Choose a port to listen on
 const port = process.env.PORT || 3000;
 

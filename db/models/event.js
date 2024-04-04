@@ -10,9 +10,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Event.associate = function(models) {
-        Event.hasMany(models.Rsvp);
-      };    }
+      Event.hasMany(models.Rsvp);
+    }
   }
   Event.init({
     title: DataTypes.STRING,

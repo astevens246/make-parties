@@ -32,6 +32,10 @@ app.set('view engine', 'handlebars');
 // override with POST having ?_method=DELETE or ?_method=PUT
 app.use(methodOverride('_method'))
 
+// Parse URL-encoded bodies
+app.use(express.urlencoded({ extended: true }));
+
+
 // Tell our app to send the "hello world" message to our home page
 // app.get('/', (req, res) => {
 //     res.render('home', { msg: 'Handlebars are Cool!' });
@@ -47,7 +51,8 @@ var events = [
 require('./controllers/events')(app, models);
 require('./controllers/rsvps')(app, models);
 
-
+const authRoutes = require('./controllers/auth');
+app.use(authRoutes);
 // STARTING APPLICATION
 // Choose a port to listen on
 const port = process.env.PORT || 3000;

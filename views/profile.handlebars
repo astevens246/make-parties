@@ -1,0 +1,15 @@
+<h1>{{user.firstName}}'s Profile</h1>
+
+<h2>My Events</h2>
+<ul>
+  {{#each user.Events}}
+    <li>{{this.title}}</li>
+  {{/each}}
+</ul>
+
+<h2>My RSVPs</h2>
+<ul>
+  {{#each user.Rsvps}}
+    <li>{{this.Event.title}}</li>
+  {{/each}}
+</ul>

@@ -4,19 +4,15 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Rsvp extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      Rsvp.associate = function(models) {
-        Rsvp.belongsTo(models.Event); // EventId
-      };    }
+      Rsvp.belongsTo(models.Event);
+      Rsvp.belongsTo(models.User, { foreignKey: 'UserId' }); 
+    }
   }
   Rsvp.init({
     name: DataTypes.STRING,
-    email: DataTypes.STRING
+    email: DataTypes.STRING,
+    UserId: DataTypes.INTEGER 
   }, {
     sequelize,
     modelName: 'Rsvp',

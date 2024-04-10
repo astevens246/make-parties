@@ -11,13 +11,14 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Event.hasMany(models.Rsvp);
+      Event.belongsTo(models.User, { foreignKey: 'UserId' }); // Add this line
     }
   }
   Event.init({
     title: DataTypes.STRING,
     desc: DataTypes.TEXT,
-    imgUrl: DataTypes.STRING 
-
+    imgUrl: DataTypes.STRING,
+    UserId: DataTypes.INTEGER // Add this line
   }, {
     sequelize,
     modelName: 'Event',

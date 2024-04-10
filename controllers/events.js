@@ -14,15 +14,18 @@ module.exports = function (app, models) {
     res.render('events-new', {});
   })
 
-  // CREATE
-  app.post('/events', (req, res) => {
-    models.Event.create(req.body).then(event => {
-      // Redirect to events/:id
-      res.redirect(`/events/${event.id}`)
-    }).catch((err) => {
-      console.log(err)
-    });
-  })
+// CREATE
+app.post('/events', (req, res) => {
+  models.Event.create(req.body).then(event => {
+    // Set the user for the event
+    event.setUser(res.locals.currentUser);
+
+    // Redirect to events/:id
+    res.redirect(`/events/${event.id}`)
+  }).catch((err) => {
+    console.log(err)
+  });
+});
 
   // SHOW
     app.get('/events/:id', (req, res) => {
